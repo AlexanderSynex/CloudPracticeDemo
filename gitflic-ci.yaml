@@ -17,6 +17,7 @@ name 1.1:
   stage: build
   script:
     - echo "Hello world 1.1!" > hello.txt
+  needs: [ name 1 ]
 
 name 2:
   stage: test
