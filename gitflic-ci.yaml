@@ -13,6 +13,11 @@ name 1:
   script:
     - echo "Hello world!" > hello.txt
 
+name 1.1:
+  stage: build
+  script:
+    - echo "Hello world 1.1!" > hello.txt
+
 name 2:
   stage: test
   script:
