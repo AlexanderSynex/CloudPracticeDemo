@@ -3,7 +3,9 @@
 #
 # Подробнее о синтаксисе можно узнать в документации:
 # https://docs.gitflic.space/cicd/gitflic-ci-yaml
-
+cache:
+  paths:
+    - ./hello.txt
 name 1:
   script:
     - echo "Hello world!" > ./hello.txt
