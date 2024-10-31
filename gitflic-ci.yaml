@@ -4,22 +4,8 @@
 # Подробнее о синтаксисе можно узнать в документации:
 # https://docs.gitflic.space/cicd/gitflic-ci-yaml
 
-stages:
-  - build
-  - test
-
-name 1:
-  stage: build
+build project:
   script:
-    - echo "Hello world!" > hello.txt
-
-name 1.1:
-  stage: build
-  script:
-    - echo "Hello world 1.1!" > hello.txt
-  needs: [ name 1 ]
-
-name 2:
-  stage: test
-  script:
-    - echo "Goodbye world!"
+    - python3 -m venv .venv
+    - source .venv/bin/activate
+    - pip install -r requirements.txt
