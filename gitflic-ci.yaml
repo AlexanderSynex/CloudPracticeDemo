@@ -6,4 +6,7 @@
 
 name 1:
   script:
-    - echo "Hello world!"
+    - echo "Hello world!" > ./hello.txt
+  artifacts:
+    paths:
+      - ./hello.txt
