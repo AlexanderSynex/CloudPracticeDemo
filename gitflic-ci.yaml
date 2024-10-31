@@ -3,12 +3,17 @@
 #
 # Подробнее о синтаксисе можно узнать в документации:
 # https://docs.gitflic.space/cicd/gitflic-ci-yaml
-cache:
-  paths:
-    - ./hello.txt
+
+stages:
+  - build
+  - test
+
 name 1:
+  stage: build
   script:
-    - echo "Hello world!" > ./hello.txt
-  artifacts:
-    paths:
-      - ./hello.txt
+    - echo "Hello world!" > hello.txt
+
+name 2:
+  stage: test
+  script:
+    - echo "Goodbye world!"
