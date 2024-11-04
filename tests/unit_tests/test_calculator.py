@@ -7,7 +7,7 @@ from entity.calculator import Calculator
 
 class TestCalculator:
     # setUp method is overridden from the parent class TestCase
-    def setup(self):
+    def setup_method(self):
         self.calculator = Calculator()
 
     # Each test method starts with the keyword test_
@@ -18,7 +18,7 @@ class TestCalculator:
         assert self.calculator.subtract(10, 5) == 5
 
     def test_multiply(self):
-        assert self.calculator.multiply(3, 7) == 21
+        assert self.calculator.multiply(3, 8) == 48
 
     def test_divide(self):
         assert self.calculator.divide(10, 2) == 5
