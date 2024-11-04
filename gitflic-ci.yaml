@@ -47,4 +47,4 @@ build app:
     - apk upgrade
     - apk add docker
   script:
-    - docker buildx build -t pipelinehw:latest
+    - docker buildx build -t pipelinehw:latest .
