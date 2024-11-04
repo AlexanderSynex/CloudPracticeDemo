@@ -1,6 +1,5 @@
-FROM alpine:latest
+FROM python:3.8-slim
 WORKDIR /pipeline
-RUN apk add --no-cache python3
 COPY . .
-RUN pip install -r requirements.txt --break-system-packages
+RUN pip install -r requirements.txt
 CMD python3 app.py
