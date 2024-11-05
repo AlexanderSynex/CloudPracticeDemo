@@ -66,10 +66,10 @@ Publish Docker app:
     - docker login -u "$DOCKER_REGISTRY_LOGIN" -p "$DOCKER_REGISTRY_PASSWD"
   script:
     - echo "Building $CI_PROJECT_NAME docker image to $DOCKER_REGISTRY_LOGIN"
-    - echo "Image name ${DOCKER_IMAGE_NAME} ->  ${DOCKER_IMAGE_NAME}:latest"
-    - docker buildx build -t "${DOCKER_IMAGE_NAME}:latest" . --network=host
+    - echo "Image name $DOCKER_IMAGE_NAME ->  $DOCKER_IMAGE_NAME:latest"
+    - docker buildx build -t "$DOCKER_IMAGE_NAME:latest" . --network=host
   after_script:
-    - echo "DEBUG DOCKER NAME: ${DOCKER_IMAGE_NAME}:latest"
-    - docker push "${DOCKER_IMAGE_NAME}:latest"
+    - echo "DEBUG DOCKER NAME: $DOCKER_IMAGE_NAME:latest"
+    - docker push "$DOCKER_IMAGE_NAME:latest"
 
 
