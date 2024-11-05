@@ -49,12 +49,12 @@ variables:
 Unit test:
   stage: test
   before_script:
-    - python -m .venv venv
-    - venv/bin/pip install --upgrade pip
-    - venv/bin/pip install -r requirements.txt
+    - python -m venv .venv
+    - .venv/bin/pip install --upgrade pip
+    - .venv/bin/pip install -r requirements.txt
   script:
     - echo "Starting pytest"
-    - venv/bin/pytest tests/unit_tests
+    - .venv/bin/pytest tests/unit_tests
   
 
 # Сборка образа приложения и загрузка в докер реджистри
