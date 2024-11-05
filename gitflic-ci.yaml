@@ -68,6 +68,7 @@ Publish Docker app:
     - echo "Building $CI_PROJECT_NAME docker image to $DOCKER_REGISTRY_LOGIN"
     - docker buildx build -t "DOCKER_IMAGE_NAME:latest" . --network=host
   after_script:
+    - echo "DEBUG DOCKER NAME: $DOCKER_IMAGE_NAME:latest"
     - docker push "$DOCKER_IMAGE_NAME:latest"
   needs: [ Unit test ]
 
