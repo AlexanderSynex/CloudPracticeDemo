@@ -45,30 +45,39 @@ variables:
     - DOCKER_REGISTRY_LOGIN: "$DOCKER_REGISTRY_LOGIN"
     - DOCKER_REGISTRY_PASSWD: "$DOCKER_REGISTRY_PASSWD"
 
-Unit test:
-  stage: test
-  before_script:
-    - python -m venv .venv
-    - .venv/bin/pip install --upgrade pip
-    - .venv/bin/pip install -r requirements.txt
-  script:
-    - echo "Starting pytest"
-    - .venv/bin/pytest tests/unit_tests
+# Unit test:
+#   stage: test
+#   before_script:
+#     - python -m venv .venv
+#     - .venv/bin/pip install --upgrade pip
+#     - .venv/bin/pip install -r requirements.txt
+#   script:
+#     - echo "Starting pytest"
+#     - .venv/bin/pytest tests/unit_tests
   
 
-# Сборка образа приложения и загрузка в докер реджистри
-Publish Docker app:
-  stage: deploy
-  variables:
-    - DOCKER_IMAGE_NAME: "${DOCKER_REGISTRY_LOGIN}/${CI_PROJECT_NAME}"
-  before_script:
-    - apk upgrade
-    - apk add docker  
-    - docker login -u "$DOCKER_REGISTRY_LOGIN" -p "$DOCKER_REGISTRY_PASSWD"
-  script:
-    - echo "Building $CI_PROJECT_NAME docker image to $DOCKER_REGISTRY_LOGIN"
-    - docker buildx build -t "$DOCKER_REGISTRY_LOGIN/$CI_PROJECT_NAME:latest" . --network=host
-  after_script:
-    - docker push "$DOCKER_REGISTRY_LOGIN/$CI_PROJECT_NAME:latest"
-  needs: [ Unit test ]
+# # Сборка образа приложения и загрузка в докер реджистри
+# Publish Docker app:
+#   stage: deploy
+#   variables:
+#     - DOCKER_IMAGE_NAME: "${DOCKER_REGISTRY_LOGIN}/${CI_PROJECT_NAME}"
+#   before_script:
+#     - apk upgrade
+#     - apk add docker  
+#     - docker login -u "$DOCKER_REGISTRY_LOGIN" -p "$DOCKER_REGISTRY_PASSWD"
+#   script:
+#     - echo "Building $CI_PROJECT_NAME docker image to $DOCKER_REGISTRY_LOGIN"
+#     - docker buildx build -t "$DOCKER_REGISTRY_LOGIN/$CI_PROJECT_NAME:latest" . --network=host
+#   after_script:
+#     - docker push "$DOCKER_REGISTRY_LOGIN/$CI_PROJECT_NAME:latest"
+#   needs: [ Unit test ]
 
+Functional Tests:
+  before_script:
+    - docker pull "$DOCKER_REGISTRY_LOGIN/$CI_PROJECT_NAME:latest"
+    - docker run "$DOCKER_REGISTRY_LOGIN/$CI_PROJECT_NAME:latest" -d -p 5000:5000
+  script:
+    - python -m venv .venv
+    - .venv/bin/pip install --upgrade pip
+    - .venv/bin/pip install pytest selenium
+    - .venv/bin/pytest tests/functional_tests
