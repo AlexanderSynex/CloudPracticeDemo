@@ -18,7 +18,7 @@ class TestCalculator:
         assert self.calculator.subtract(10, 5) == 5
 
     def test_multiply(self):
-        assert self.calculator.multiply(3, 8) == 48
+        assert self.calculator.multiply(3, 8) == 24
 
     def test_divide(self):
         assert self.calculator.divide(10, 2) == 5
