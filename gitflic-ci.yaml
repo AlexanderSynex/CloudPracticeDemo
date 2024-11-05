@@ -43,8 +43,13 @@ cache:
 
 build app:
   stage: build
+  variables:
+    - DOCKER_REGISTRY_LOGIN: "$DOCKER_REGISTRY_LOGIN"
+    - DOCKER_REGISTRY_PASSWD: "$DOCKER_REGISTRY_PASSWD"
   before_script:
     - apk upgrade
-    - apk add docker
+    - apk add docker  
+    - docker login -u "$DOCKER_REGISTRY_LOGIN" -p "$DOCKER_REGISTRY_PASSWD"
   script:
-    - docker buildx build -t pipelinehw:latest . --network=host
+    - echo "Building $CI_PROJECT_NAME docker image to $DOCKER_REGISTRY_LOGIN"
+    - docker buildx build -t "$DOCKER_REGISTRY_LOGIN/$CI_PROJECT_NAME:latest" . --network=host
