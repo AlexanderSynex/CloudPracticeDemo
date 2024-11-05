@@ -76,7 +76,7 @@ Functional Tests:
   before_script:
     - docker pull "$DOCKER_REGISTRY_LOGIN/$CI_PROJECT_NAME:latest"
     - docker images
-    - docker run "$DOCKER_REGISTRY_LOGIN/$CI_PROJECT_NAME:latest" -p 5000:5000
+    - docker run -p 5000:5000 "$DOCKER_REGISTRY_LOGIN/$CI_PROJECT_NAME:latest"
   script:
     - python -m venv .venv
     - .venv/bin/pip install --upgrade pip
