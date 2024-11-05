@@ -44,7 +44,6 @@ cache:
 variables:
     - DOCKER_REGISTRY_LOGIN: "$DOCKER_REGISTRY_LOGIN"
     - DOCKER_REGISTRY_PASSWD: "$DOCKER_REGISTRY_PASSWD"
-    - DOCKER_IMAGE_NAME: "${DOCKER_REGISTRY_LOGIN}/${CI_PROJECT_NAME}"
 
 # Unit test:
 #   stage: test
@@ -60,6 +59,8 @@ variables:
 # Сборка образа приложения и загрузка в докер реджистри
 Publish Docker app:
   stage: deploy
+  variables:
+    - DOCKER_IMAGE_NAME: "${DOCKER_REGISTRY_LOGIN}/${CI_PROJECT_NAME}"
   before_script:
     - apk upgrade
     - apk add docker  
@@ -67,6 +68,7 @@ Publish Docker app:
   script:
     - echo "Building $CI_PROJECT_NAME docker image to $DOCKER_REGISTRY_LOGIN"
     - echo "Image name $DOCKER_IMAGE_NAME ->  $DOCKER_IMAGE_NAME:latest"
+    - echo "$DOCKER_REGISTRY_LOGIN/$CI_PROJECT_NAME:latest"
     - docker buildx build -t "$DOCKER_IMAGE_NAME:latest" . --network=host
   after_script:
     - echo "DEBUG DOCKER NAME: $DOCKER_IMAGE_NAME:latest"
