@@ -8,6 +8,7 @@ stages:
   - .pre
   - build
   - test
+  - deploy
 
 cache:
   paths:
@@ -40,13 +41,25 @@ cache:
 #   stage: deploy
 #   script: echo "Развертывание проекта"
 
-
-build app:
-  stage: build
-  variables:
+variables:
     - DOCKER_REGISTRY_LOGIN: "$DOCKER_REGISTRY_LOGIN"
     - DOCKER_REGISTRY_PASSWD: "$DOCKER_REGISTRY_PASSWD"
     - DOCKER_IMAGE_NAME: "$DOCKER_REGISTRY_LOGIN/$CI_PROJECT_NAME"
+
+Unit test:
+  stage: test
+  before_script:
+    - python -m .venv venv
+    - venv/bin/pip install --upgrade pip
+    - venv/bin/pip install -r requirements.txt
+  script:
+    - echo "Starting pytest"
+    - venv/bin/pytest tests/unit_tests
+  
+
+# Сборка образа приложения и загрузка в докер реджистри
+Publish Docker app:
+  stage: deploy
   before_script:
     - apk upgrade
     - apk add docker  
@@ -56,3 +69,6 @@ build app:
     - docker buildx build -t "DOCKER_IMAGE_NAME:latest" . --network=host
   after_script:
     - docker push "$DOCKER_IMAGE_NAME:latest"
+  needs: [ Unit test ]
+
+
