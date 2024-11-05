@@ -77,6 +77,7 @@ Functional Tests:
     - docker pull "$DOCKER_REGISTRY_LOGIN/$CI_PROJECT_NAME:latest"
     - docker run "$DOCKER_REGISTRY_LOGIN/$CI_PROJECT_NAME:latest" -d -p 5000:5000
   script:
+    - docker image ls
     - python -m venv .venv
     - .venv/bin/pip install --upgrade pip
     - .venv/bin/pip install pytest selenium
