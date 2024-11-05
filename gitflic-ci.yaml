@@ -65,8 +65,8 @@ Publish Docker app:
     - apk add docker  
     - docker login -u "$DOCKER_REGISTRY_LOGIN" -p "$DOCKER_REGISTRY_PASSWD"
   script:
-    - echo "Building $CI_PROJECT_NAME docker image to $DOCKER_REGISTRY_LOGIN"
-    - docker buildx build -t "DOCKER_IMAGE_NAME:latest" . --network=host
+    - echo "Building $CI_PROJECT_NAME docker image to $DOCKER_REGISTRY_LOGIN ($)"
+    - docker buildx build -t "$DOCKER_IMAGE_NAMEs:latest" . --network=host
   after_script:
     - echo "DEBUG DOCKER NAME: $DOCKER_IMAGE_NAME:latest"
     - docker push "$DOCKER_IMAGE_NAME:latest"
