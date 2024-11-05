@@ -75,9 +75,9 @@ variables:
 Functional Tests:
   before_script:
     - docker pull "$DOCKER_REGISTRY_LOGIN/$CI_PROJECT_NAME:latest"
+    - docker images
     - docker run "$DOCKER_REGISTRY_LOGIN/$CI_PROJECT_NAME:latest" -p 5000:5000
   script:
-    - docker image ls
     - python -m venv .venv
     - .venv/bin/pip install --upgrade pip
     - .venv/bin/pip install pytest selenium
