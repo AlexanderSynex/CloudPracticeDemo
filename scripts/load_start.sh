@@ -1,18 +1,20 @@
 #!/usr/bin/env bash
 
 echo "Configuring system"
-set -o allexport; source bash.env; set +o allexport
+# set -o allexport; source bash.env; set +o allexport
+source bash.env;
 DEBIAN_FRONTEND=noninteractive
+ln -fs /usr/share/zoneinfo/Europe/Moscow /etc/localtime
 
 echo 'Installing requirements'
 apt-get update && apt-get upgrade -y \
-    && apt-get install ca-certificates curl -y \
-    && apt-get install openjdk-11-jdk[-headless] -y \
-    && apt-get install unzip -y \
-    && apt-get install wget -y \
-    && apt-get install firefox -y
-    && apt-get install python3-venv -y
+    && apt-get install --no-install-recommends ca-certificates curl -y \
+    && apt-get install --no-install-recommends openjdk-11-jdk[-headless] -y \
+    && apt-get install --no-install-recommends unzip -y \
+    && apt-get install --no-install-recommends wget -y \
+    && apt-get install --no-install-recommends python3-venv -y
 
+clear;
 echo "Configuring docker"
 install -m 0755 -d /etc/apt/keyrings
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
@@ -26,7 +28,7 @@ apt-get update
 echo "Installing docker"
 apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y
 
-
+cd /home
 
 echo "Downloading runner from $RUNNER_URL"
 wget -O runner.zip "$RUNNER_URL" && unzip runner.zip;
@@ -34,9 +36,9 @@ wget -O runner.zip "$RUNNER_URL" && unzip runner.zip;
 echo 'Installing runner'
 mkdir $HOME/gitflic-runner;
 mkdir -p $HOME/gitflic-runner/build $HOME/gitflic-runner/cache $HOME/gitflic-runner/data/log
-cp ./runner.jar ./helper.jar $HOME/gitflic-runner
-cp ./shell-scripts/helper.sh $HOME/gitflic-runner
-sudo chmod +x $HOME/gitflic-runner/helper.sh
+cp runner.jar helper.jar $HOME/gitflic-runner
+cp shell-scripts/helper.sh $HOME/gitflic-runner
+chmod +x $HOME/gitflic-runner/helper.sh
 cd $HOME/gitflic-runner
 
 echo 'Registering runner'
