@@ -84,4 +84,4 @@ Publish Docker app:
     # - docker buildx build -t "$DOCKER_REGISTRY_LOGIN/$CI_PROJECT_NAME:latest" . --network=host
   # after_script:
     # - docker push "$DOCKER_REGISTRY_LOGIN/$CI_PROJECT_NAME:latest"
-  needs: [ Unit test ]
+  needs: [ Build Docker app ]
