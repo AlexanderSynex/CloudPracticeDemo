@@ -57,7 +57,7 @@ functional tests:
     - docker pull selenium/standalone-chrome
     - docker run -d -p 4444:4444 -p 7900:7900 --name runner --network=host selenium/standalone-chrome:latest
   script:
-    - python -m venv .venv
+    - python3 -m venv .venv
     - .venv/bin/pip install --upgrade pip
     - .venv/bin/pip install pytest selenium
     - .venv/bin/pytest tests/functional_tests
