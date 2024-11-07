@@ -26,17 +26,9 @@ before_script:
 # Сборка образа приложения и загрузка в докер реджистри
 build app:
   stage: build
-  variables:
-    - DOCKER_IMAGE_NAME: "${DOCKER_REGISTRY_LOGIN}/${CI_PROJECT_NAME}"
-  before_script:
-    - apk upgrade
-    - apk add docker  
-    - docker login -u "$DOCKER_REGISTRY_LOGIN" -p "$DOCKER_REGISTRY_PASSWD"
   script:
     - echo "Building $CI_PROJECT_NAME docker image to $DOCKER_REGISTRY_LOGIN"
-    - docker buildx build -t "$DOCKER_REGISTRY_LOGIN/$CI_PROJECT_NAME:latest" . --network=host
-  after_script:
-    - docker push "$DOCKER_REGISTRY_LOGIN/$CI_PROJECT_NAME:latest"
+    - docker build -t "$DOCKER_REGISTRY_LOGIN/$CI_PROJECT_NAME:latest" .
   artifacts:
     paths:
       - /var/lib/docker
