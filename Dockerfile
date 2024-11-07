@@ -1,6 +1,7 @@
-FROM python:3.8-slim
-ADD requirements.txt /
-RUN pip install --no-cache-dir -r requirements.txt
-WORKDIR /pipeline
-COPY . .
-CMD ["python3", "app.py"]
+FROM python:3.8-alpine
+ADD ./requirements.txt /app/requirements.txt
+WORKDIR /app
+RUN pip install -r requirements.txt
+COPY . /app
+ENTRYPOINT [ "python3" ]
+CMD ["app.py"]

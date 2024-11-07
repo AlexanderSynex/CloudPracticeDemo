@@ -3,16 +3,19 @@ import pytest
 import os
 
 from selenium.webdriver.common.by import By
-
+from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 driver = "/home/geckodriver" if "FirefoxWebDriver" not in os.environ.keys() else os.path.join(
     os.environ["FirefoxWebDriver"], 'geckodriver')
 
 
 class TestBackend:
-
-    def setup(self):
-        self.service = webdriver.firefox.service(executable_path=driver)
-        self.driver = webdriver.Firefox(service=self.service)
+    def setup_method(self):
+        options = webdriver.ChromeOptions()
+        # self.service = webdriver.FirefoxService(executable_path='./geckodriver')
+        # self.driver = webdriver.Firefox(service=self.service)
+        self.driver = webdriver.Remote(command_executor="http://localhost:4444",options=options)
+        
+        # self.driver = webdriver.Remote("http://localhost:4444/wd/hub", DesiredCapabilities.CHROME)
 
     def test_add(self, url):
         self.driver.get(f'{url}/add/1&2')
@@ -30,5 +33,6 @@ class TestBackend:
         self.driver.get(f'{url}/subtract/9&2')
         assert "Subtract 9 and 2. Got 7!" == self.driver.find_element(By.TAG_NAME, "body").text
 
-    def teardown(self):
+    def teardown_method(self):
+        self.driver.close()
         self.driver.quit()

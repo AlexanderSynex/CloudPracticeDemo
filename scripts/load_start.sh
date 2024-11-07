@@ -11,6 +11,7 @@ apt-get update && apt-get upgrade -y \
     && apt-get install unzip -y \
     && apt-get install wget -y \
     && apt-get install firefox -y
+    && apt-get install python3-venv -y
 
 echo "Configuring docker"
 install -m 0755 -d /etc/apt/keyrings
@@ -44,9 +45,9 @@ java -jar runner.jar register --url "$GITFLIC_AGENT_URL" --registration-token "$
 echo 'Configuring runner'
 sed -i '1 i\runner.executor=shell\nlogging.file.name=data/log/server.log' config/application.properties
 
-echo "Downloading Firefox driver"
-wget -O driver.tar.gz https://github.com/mozilla/geckodriver/releases/download/v0.35.0/geckodriver-v0.35.0-linux64.tar.gz && \
-tar -xf driver.tar.gz
+# echo "Downloading Firefox driver"
+# wget -O driver.tar.gz https://github.com/mozilla/geckodriver/releases/download/v0.35.0/geckodriver-v0.35.0-linux64.tar.gz && \
+# tar -xf driver.tar.gz
 
 echo 'Starting runner'
 java -jar runner.jar start --config=config/application.properties
