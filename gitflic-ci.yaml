@@ -23,21 +23,8 @@ before_script:
   - apt-get update
   - apt-get upgrade
 
-
-Unit test:
-  stage: test
-  before_script:
-    - apt-get install python3 -y
-    - python3 -m venv .venv
-    - .venv/bin/pip install --upgrade pip
-    - .venv/bin/pip install -r requirements.txt
-  script:
-    - echo "Starting pytest"
-    - .venv/bin/pytest tests/unit_tests
-
-
 # Сборка образа приложения и загрузка в докер реджистри
-Build Docker app:
+build app:
   stage: build
   variables:
     - DOCKER_IMAGE_NAME: "${DOCKER_REGISTRY_LOGIN}/${CI_PROJECT_NAME}"
@@ -53,10 +40,22 @@ Build Docker app:
   artifacts:
     paths:
       - /var/lib/docker
-  needs: [ Unit test ]
 
 
-Functional Tests:
+unit tests:
+  stage: test
+  before_script:
+    - apt-get install python3 -y
+    - python3 -m venv .venv
+    - .venv/bin/pip install --upgrade pip
+    - .venv/bin/pip install -r requirements.txt
+  script:
+    - echo "Starting pytest"
+    - .venv/bin/pytest tests/unit_tests
+  needs: [ build app ]
+
+
+functional tests:
   stage: test
   before_script:
     # - docker pull "$DOCKER_REGISTRY_LOGIN/$CI_PROJECT_NAME:latest"
@@ -71,7 +70,7 @@ Functional Tests:
   after_script:
     - docker stop $(docker ps -a -q)
     - docker rm $(docker ps -a -q)
-  needs: [ Build Docker app ]
+  needs: [ build app, unit tests ]
 
 
 Publish Docker app:
@@ -84,4 +83,4 @@ Publish Docker app:
     # - docker buildx build -t "$DOCKER_REGISTRY_LOGIN/$CI_PROJECT_NAME:latest" . --network=host
   # after_script:
     # - docker push "$DOCKER_REGISTRY_LOGIN/$CI_PROJECT_NAME:latest"
-  needs: [ Build Docker app, Functional Tests ]
+  needs: [ functional tests, unit tests ]
