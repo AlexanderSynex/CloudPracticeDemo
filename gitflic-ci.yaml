@@ -15,10 +15,6 @@ cache:
     - .cache/pip
 
 
-variables:
-    - DOCKER_REGISTRY_LOGIN: $DOCKER_REGISTRY_LOGIN
-    - DOCKER_REGISTRY_PASSWD: $DOCKER_REGISTRY_PASSWD
-
 before_script:
   - apt-get update
   - apt-get upgrade
@@ -26,6 +22,9 @@ before_script:
 # Сборка образа приложения и загрузка в докер реджистри
 build app:
   stage: build
+  variables:
+    - DOCKER_REGISTRY_LOGIN: $DOCKER_REGISTRY_LOGIN
+    - DOCKER_REGISTRY_PASSWD: $DOCKER_REGISTRY_PASSWD
   script:
     - echo "Building $CI_PROJECT_NAME docker image to $DOCKER_REGISTRY_LOGIN"
     - docker build -t "$DOCKER_REGISTRY_LOGIN/$CI_PROJECT_NAME:latest" .
@@ -49,6 +48,9 @@ unit tests:
 
 functional tests:
   stage: test
+  variables:
+    - DOCKER_REGISTRY_LOGIN: $DOCKER_REGISTRY_LOGIN
+    - DOCKER_REGISTRY_PASSWD: $DOCKER_REGISTRY_PASSWD
   before_script:
     # - docker pull "$DOCKER_REGISTRY_LOGIN/$CI_PROJECT_NAME:latest"
     - docker run -d -p 5000:5000 --network=host "$DOCKER_REGISTRY_LOGIN/$CI_PROJECT_NAME:latest"
@@ -67,6 +69,9 @@ functional tests:
 
 Publish Docker app:
   stage: deploy
+  variables:
+    - DOCKER_REGISTRY_LOGIN: $DOCKER_REGISTRY_LOGIN
+    - DOCKER_REGISTRY_PASSWD: $DOCKER_REGISTRY_PASSWD
   before_script:
     - docker login -u "$DOCKER_REGISTRY_LOGIN" -p "$DOCKER_REGISTRY_PASSWD"
   script:
