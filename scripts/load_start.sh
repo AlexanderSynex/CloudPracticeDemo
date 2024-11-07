@@ -25,6 +25,8 @@ apt-get update
 echo "Installing docker"
 apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y
 
+cd $HOME
+
 echo "Downloading runner from $RUNNER_URL"
 wget -O runner.zip "$RUNNER_URL" && unzip runner.zip;
 
