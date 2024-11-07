@@ -55,7 +55,7 @@ functional tests:
     # - docker pull "$DOCKER_REGISTRY_LOGIN/$CI_PROJECT_NAME:latest"
     - docker run -d -p 5000:5000 --network=host "$DOCKER_REGISTRY_LOGIN/$CI_PROJECT_NAME:latest"
     - docker pull selenium/standalone-chrome
-    - docker run -d -p 4444:4444 -p 7900:7900 --network=host --shm-size="2g" selenium/standalone-chrome:latest
+    - docker run -d -p 4444:4444 -p 7900:7900 --network=host selenium/standalone-chrome:latest
   script:
     - python -m venv .venv
     - .venv/bin/pip install --upgrade pip
