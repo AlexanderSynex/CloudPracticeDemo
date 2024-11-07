@@ -4,15 +4,15 @@ import os
 
 from selenium.webdriver.common.by import By
 
-chrome_driver = "C:/Users/IIoT_Lab/PycharmProjects/flaskProject/tests/functional_tests/yandexdriver.exe" if "ChromeWebDriver" not in os.environ.keys() else os.path.join(
-    os.environ["ChromeWebDriver"], 'chromedriver.exe')
+driver = "/home/geckodriver" if "FirefoxWebDriver" not in os.environ.keys() else os.path.join(
+    os.environ["FirefoxWebDriver"], 'geckodriver')
 
 
 class TestBackend:
 
     def setup(self):
-        self.service = webdriver.Chrome(chrome_driver)
-        self.driver = webdriver.Chrome(chrome_driver)
+        self.service = webdriver.firefox.service(executable_path=driver)
+        self.driver = webdriver.Firefox(service=self.service)
 
     def test_add(self, url):
         self.driver.get(f'{url}/add/1&2')
