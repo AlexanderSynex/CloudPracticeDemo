@@ -64,8 +64,6 @@ functional tests:
   after_script:
     - docker stop app
     - docker stop runner
-    - docker rm app
-    - docker rm runner
   needs: [ build app, unit tests ]
 
 
