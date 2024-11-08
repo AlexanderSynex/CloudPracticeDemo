@@ -41,7 +41,6 @@ unit tests:
     - .venv/bin/pip install --upgrade pip
     - .venv/bin/pip install -r requirements.txt
   script:
-    - echo "Starting pytest"
     - .venv/bin/pytest tests/unit_tests
   needs: [ build app ]
 
@@ -52,7 +51,6 @@ functional tests:
     - DOCKER_REGISTRY_LOGIN: $DOCKER_REGISTRY_LOGIN
     - DOCKER_REGISTRY_PASSWD: $DOCKER_REGISTRY_PASSWD
   before_script:
-    # - docker pull "$DOCKER_REGISTRY_LOGIN/$CI_PROJECT_NAME:latest"
     - docker run -d -p 5000:5000 --network=host "$DOCKER_REGISTRY_LOGIN/$CI_PROJECT_NAME:latest"
     - docker pull selenium/standalone-chrome
     - docker run -d -p 4444:4444 -p 7900:7900 --network=host selenium/standalone-chrome:latest
@@ -74,7 +72,4 @@ Publish Docker app:
   script:
     - echo "Publishing $CI_PROJECT_NAME docker image to $DOCKER_REGISTRY_LOGIN"
     - docker push "$DOCKER_REGISTRY_LOGIN/$CI_PROJECT_NAME:latest"
-    # - docker buildx build -t "$DOCKER_REGISTRY_LOGIN/$CI_PROJECT_NAME:latest" . --network=host
-  # after_script:
-    # - docker push "$DOCKER_REGISTRY_LOGIN/$CI_PROJECT_NAME:latest"
   needs: [ functional tests, unit tests ]
