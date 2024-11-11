@@ -15,8 +15,8 @@ cache:
 
 
 before_script:
-  - apt-get update
-  - apt-get upgrade
+  - apk update
+  - apk upgrade
 
 # Сборка образа приложения и загрузка в докер реджистри
 build app:
@@ -35,7 +35,6 @@ build app:
 unit tests:
   stage: test
   before_script:
-    - apt-get install python3 -y
     - python3 -m venv .venv
     - .venv/bin/pip install --upgrade pip
     - .venv/bin/pip install -r requirements.txt
