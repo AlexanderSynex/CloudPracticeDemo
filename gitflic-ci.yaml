@@ -26,7 +26,7 @@ build app:
     - DOCKER_REGISTRY_PASSWD: $DOCKER_REGISTRY_PASSWD
   script:
     - echo "Building $CI_PROJECT_NAME docker image to $DOCKER_REGISTRY_LOGIN"
-    - docker build -t "$DOCKER_REGISTRY_LOGIN/$CI_PROJECT_NAME:latest" .
+    - docker build --network=host -t "$DOCKER_REGISTRY_LOGIN/$CI_PROJECT_NAME:latest" .
   artifacts:
     paths:
       - /var/lib/docker
