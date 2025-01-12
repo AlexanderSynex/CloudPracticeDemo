@@ -77,3 +77,5 @@ functional tests:
     - pip install selenium
     - pytest tests/functional_tests
   needs: [ build app, unit tests ]
+  tags:
+    - docker
