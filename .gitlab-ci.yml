@@ -4,39 +4,36 @@
 # # Подробнее о синтаксисе можно узнать в документации:
 # # https://docs.gitflic.space/cicd/gitflic-ci-yaml
 
-# stages:
-#   - build
-#   - test
-#   - deploy
-
-# cache:
-#   paths:
-#     - .cache/pip
-
-
-# before_script:
-#   - apk update
-#   - apk upgrade
-
 stages:
   - build
+  # - test
+  # - deploy
 
-# Сборка образа приложения и загрузка в докер реджистри
+
 build app:
   stage: build
+  image:
+    name: gcr.io/kaniko-project/executor:v1.23.2-debug
+    entrypoint: [""]
   script:
-    - docker build -t $CI_REGISTRY_IMAGE .
+    - /kaniko/executor
+      --context "${CI_PROJECT_DIR}"
+      --dockerfile "${CI_PROJECT_DIR}/Dockerfile"
+      --destination "${CI_REGISTRY_IMAGE}:${CI_COMMIT_TAG}"
+  tags:
+    - docker
 
-
-# unit tests:
-#   stage: test
-#   before_script:
-#     - python3 -m venv .venv
-#     - .venv/bin/pip install --upgrade pip
-#     - .venv/bin/pip install -r requirements.txt
-#   script:
-#     - .venv/bin/pytest tests/unit_tests
-#   needs: [ build app ]
+unit tests:
+  image: python:3.8.20-alpine3.20
+  stage: test
+  before_script:
+    - python -m venv .venv
+    - . ./venv/bin/activate
+    - pip install --upgrade pip
+    - pip install -r requirements.txt
+  script:
+    - pytest tests/unit_tests
+  needs: [ build app ]
 
 
 # functional tests:
