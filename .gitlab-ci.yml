@@ -68,6 +68,7 @@ functional tests:
   stage: test
   services:
     - selenium/standalone-firefox:latest
+    - ${CI_REGISTRY_IMAGE}:${CI_COMMIT_TAG}
   script:
     - *install_firefox_geckodriver
     - python -m venv .venv
