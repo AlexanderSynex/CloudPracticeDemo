@@ -10,7 +10,7 @@ driver = "/home/geckodriver" if "FirefoxWebDriver" not in os.environ.keys() else
 
 class TestBackend:
     def setup_method(self):
-        options = webdriver.FirefoxWebDriver()
+        options = webdriver.firefox.webdriver.WebDriver()
         self.driver = webdriver.Remote(command_executor="http://localhost:4444",options=options)
 
     def test_add(self, url):
