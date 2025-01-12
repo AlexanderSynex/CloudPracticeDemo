@@ -67,7 +67,7 @@ functional tests:
   image: python:3.8
   stage: test
   services:
-    - selenium/standalone-chrome:latest
+    - selenium/standalone-firefox:latest
   script:
     - .install_firefox_geckodriver
     - python -m venv .venv
