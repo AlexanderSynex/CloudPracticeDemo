@@ -1,0 +1,69 @@
+# # Данный файл - шаблонная конфигурация CI/CD конвейера. Он может быть изменен по Вашему усмотрению. 
+# # Некоторые шаблоны требуют предварительной настройки перед запуском.
+# #
+# # Подробнее о синтаксисе можно узнать в документации:
+# # https://docs.gitflic.space/cicd/gitflic-ci-yaml
+
+# stages:
+#   - build
+#   - test
+#   - deploy
+
+# cache:
+#   paths:
+#     - .cache/pip
+
+
+# before_script:
+#   - apk update
+#   - apk upgrade
+
+stages:
+  - build
+
+# Сборка образа приложения и загрузка в докер реджистри
+build app:
+  stage: build
+  script:
+    - docker build -t $CI_REGISTRY_IMAGE .
+
+
+# unit tests:
+#   stage: test
+#   before_script:
+#     - python3 -m venv .venv
+#     - .venv/bin/pip install --upgrade pip
+#     - .venv/bin/pip install -r requirements.txt
+#   script:
+#     - .venv/bin/pytest tests/unit_tests
+#   needs: [ build app ]
+
+
+# functional tests:
+#   stage: test
+#   variables:
+#     - DOCKER_REGISTRY_LOGIN: $DOCKER_REGISTRY_LOGIN
+#     - DOCKER_REGISTRY_PASSWD: $DOCKER_REGISTRY_PASSWD
+#   before_script:
+#     - docker run -d -p 5000:5000 --network=host "$DOCKER_REGISTRY_LOGIN/$CI_PROJECT_NAME:latest"
+#     - docker pull selenium/standalone-chrome
+#     - docker run -d -p 4444:4444 -p 7900:7900 --network=host selenium/standalone-chrome:latest
+#   script:
+#     - python3 -m venv .venv
+#     - .venv/bin/pip install --upgrade pip
+#     - .venv/bin/pip install pytest selenium
+#     - .venv/bin/pytest tests/functional_tests
+#   needs: [ build app, unit tests ]
+
+
+# Publish Docker app:
+#   stage: deploy
+#   variables:
+#     - DOCKER_REGISTRY_LOGIN: $DOCKER_REGISTRY_LOGIN
+#     - DOCKER_REGISTRY_PASSWD: $DOCKER_REGISTRY_PASSWD
+#   before_script:
+#     - docker login -u "$DOCKER_REGISTRY_LOGIN" -p "$DOCKER_REGISTRY_PASSWD"
+#   script:
+#     - echo "Publishing $CI_PROJECT_NAME docker image to $DOCKER_REGISTRY_LOGIN"
+#     - docker push "$DOCKER_REGISTRY_LOGIN/$CI_PROJECT_NAME:latest"
+#   needs: [ functional tests, unit tests ]
