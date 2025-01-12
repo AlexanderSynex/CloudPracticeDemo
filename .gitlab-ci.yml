@@ -28,7 +28,6 @@ unit tests:
   stage: test
   before_script:
     - python -m venv .venv
-    - ls -ahl
     - . ./.venv/bin/activate
     - pip install --upgrade pip
     - pip install -r requirements.txt
@@ -41,11 +40,8 @@ unit tests:
 
 # functional tests:
 #   stage: test
-#   variables:
-#     - DOCKER_REGISTRY_LOGIN: $DOCKER_REGISTRY_LOGIN
-#     - DOCKER_REGISTRY_PASSWD: $DOCKER_REGISTRY_PASSWD
 #   before_script:
-#     - docker run -d -p 5000:5000 --network=host "$DOCKER_REGISTRY_LOGIN/$CI_PROJECT_NAME:latest"
+#     - docker run -d -p 5000:5000 --network=host "${CI_REGISTRY_IMAGE}:${CI_COMMIT_TAG}"
 #     - docker pull selenium/standalone-chrome
 #     - docker run -d -p 4444:4444 -p 7900:7900 --network=host selenium/standalone-chrome:latest
 #   script:
@@ -56,14 +52,16 @@ unit tests:
 #   needs: [ build app, unit tests ]
 
 
-# Publish Docker app:
-#   stage: deploy
-#   variables:
-#     - DOCKER_REGISTRY_LOGIN: $DOCKER_REGISTRY_LOGIN
-#     - DOCKER_REGISTRY_PASSWD: $DOCKER_REGISTRY_PASSWD
-#   before_script:
-#     - docker login -u "$DOCKER_REGISTRY_LOGIN" -p "$DOCKER_REGISTRY_PASSWD"
-#   script:
-#     - echo "Publishing $CI_PROJECT_NAME docker image to $DOCKER_REGISTRY_LOGIN"
-#     - docker push "$DOCKER_REGISTRY_LOGIN/$CI_PROJECT_NAME:latest"
-#   needs: [ functional tests, unit tests ]
+functional tests:
+  image: python:3.8
+  stage: test
+  services:
+    - selenium/standalone-chrome:latest
+  script:
+    - python -m venv .venv
+    - . ./.venv/bin/activate
+    - pip install --upgrade pip
+    - pip install -r requirements.txt
+    - pip install selenium
+    - pytest tests/functional_tests
+  needs: [ build app, unit tests ]
