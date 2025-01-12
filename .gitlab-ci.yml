@@ -29,7 +29,7 @@ unit tests:
   before_script:
     - python -m venv .venv
     - ls -ahl
-    - . ././venv/bin/activate
+    - . ./.venv/bin/activate
     - pip install --upgrade pip
     - pip install -r requirements.txt
   script:
