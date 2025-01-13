@@ -10,7 +10,6 @@ class TestBackend:
         options = webdriver.FirefoxOptions()
         options.add_argument("--headless")  # Run in headless mode
         options.add_argument("--no-sandbox")
-        options.add_argument("--disable-dev-shm-usage")
 
         self.driver = webdriver.Remote(
             command_executor="http://selenium:4444/wd/hub",
@@ -18,7 +17,6 @@ class TestBackend:
         )
 
     def test_add(self, url):
-        print(url)
         self.driver.get(f'{url}/add/1&2')
         assert "Add 1 and 2. Got 3!" == self.driver.find_element(By.TAG_NAME, "body").text
 
