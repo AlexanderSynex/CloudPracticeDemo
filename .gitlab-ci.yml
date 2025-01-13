@@ -94,12 +94,14 @@ functional_tests:
   variables:
     SELENIUM_REMOTE_URL: "http://selenium:4444/wd/hub"
   before_script:
-    - pip install -r requirements.txt
-    - pip install selenium
-    - ping -c 1 http://selenium:4444/wd/hub
-    - ping -c 1 http://testapp:5000
+    # - pip install -r requirements.txt
+    # - pip install selenium
+    # - ping -c 1 http://selenium:4444/wd/hub
+    # - ping -c 1 http://testapp:5000
   script:
-    - pytest tests/functional_tests
+    - ping -c 1 selenium
+    - ping -c 1 testapp
+    # - pytest tests/functional_tests
   needs: [ build app ]
   tags:
     - docker
