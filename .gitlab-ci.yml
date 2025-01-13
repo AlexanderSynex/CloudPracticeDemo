@@ -1,0 +1,56 @@
+# # Данный файл - шаблонная конфигурация CI/CD конвейера. Он может быть изменен по Вашему усмотрению. 
+# # Некоторые шаблоны требуют предварительной настройки перед запуском.
+# #
+# # Подробнее о синтаксисе можно узнать в документации:
+# # https://docs.gitflic.space/cicd/gitflic-ci-yaml
+
+stages:
+  - build
+  - test
+
+variables:
+  IMAGE_TAG: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
+  FF_NETWORK_PER_BUILD: 1
+
+build app:
+  stage: build
+  image:
+    name: gcr.io/kaniko-project/executor:v1.23.2-debug
+    entrypoint: [""]
+  script:
+    - /kaniko/executor
+      --context "${CI_PROJECT_DIR}"
+      --dockerfile "${CI_PROJECT_DIR}/Dockerfile"
+      --destination "$IMAGE_TAG"
+  tags:
+    - docker
+
+unit tests:
+  image: python:3.8.20-alpine3.20
+  stage: test
+  before_script:
+    - python -m venv .venv
+    - . ./.venv/bin/activate
+    - pip install --upgrade pip
+    - pip install -r requirements.txt
+  script:
+    - pytest tests/unit_tests
+  needs: [ build app ]
+  tags:
+    - docker
+
+
+functional tests:
+  image: python:3.8-alpine
+  services:
+    - name: selenium/standalone-firefox
+      alias: selenium-firefox
+    - name: "$IMAGE_TAG"
+      alias: testapp    
+  stage: test
+  script:
+    - pip install selenium pytest
+    - pytest tests/functional_tests
+  needs: [ build app ]
+  tags:
+    - docker
