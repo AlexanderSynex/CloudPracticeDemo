@@ -5,11 +5,9 @@ import os
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 
-driver_url = "http://localhost:4444" if "SELENIUM_REMOTE_URL" not in os.environ.keys() else os.environ["SELENIUM_REMOTE_URL"]
-
-
 class TestBackend:
     def setup_method(self):
+        print(url)
         options = webdriver.ChromeOptions()
         options.add_argument("--headless")  # Run in headless mode
         options.add_argument("--no-sandbox")
