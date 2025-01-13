@@ -5,16 +5,16 @@ import os
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 
-url = "http://localhost:4444" if "SELENIUM_REMOTE_URL" not in os.environ.keys() else os.environ["SELENIUM_REMOTE_URL"]
+driver_url = "http://localhost:4444" if "SELENIUM_REMOTE_URL" not in os.environ.keys() else os.environ["SELENIUM_REMOTE_URL"]
 
 
 class TestBackend:
     def setup_method(self):
-        print(url)
+        print(driver_url)
         options = webdriver.ChromeOptions()
         options.add_argument('--disable-blink-features=AutomationControlled')
         options.add_argument('--headless')
-        self.driver = webdriver.Remote(command_executor=url,options=options)
+        self.driver = webdriver.Remote(command_executor=driver_url,options=options)
 
     def test_add(self, url):
         self.driver.get(f'{url}/add/1&2')
