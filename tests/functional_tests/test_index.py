@@ -10,7 +10,7 @@ url =
 class TestBackend:
     def setup_method(self):
         print(url)
-        options = webdriver.ChromeOptions()
+        options = webdriver.FirefoxOptions()
         options.add_argument("--headless")  # Run in headless mode
         options.add_argument("--no-sandbox")
         options.add_argument("--disable-dev-shm-usage")
@@ -21,7 +21,7 @@ class TestBackend:
         )
 
     def test_add(self, url):
-        self.driver.get(f'{url}/add/1&2')
+        self.driver.get(f'http://testapp:5000/add/1&2')
         assert "Add 1 and 2. Got 3!" == self.driver.find_element(By.TAG_NAME, "body").text
 
     def test_multiply(self, url):
