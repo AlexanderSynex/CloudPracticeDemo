@@ -83,7 +83,7 @@ build app:
 
 functional_tests:
   stage: test
-  image: image: python:3.8.20-alpine3.20
+  image: python:3.8.20-alpine3.20
   services:
   - name: selenium/standalone-chrome:latest
     alias: selenium
@@ -93,7 +93,6 @@ functional_tests:
     - pip install -r requirements.txt
     - pip install selenium
   script:
-    
     - pytest tests/functional_tests
   needs: [ build app ]
   tags:
