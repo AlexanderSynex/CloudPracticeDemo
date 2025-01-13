@@ -10,6 +10,7 @@ stages:
 
 variables:
   IMAGE_TAG: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
+  FF_NETWORK_PER_BUILD: 1
 
 # build app:
 #   stage: build
