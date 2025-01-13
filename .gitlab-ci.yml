@@ -5,7 +5,7 @@
 # # https://docs.gitflic.space/cicd/gitflic-ci-yaml
 
 stages:
-  - build
+  # - build
   - test
 
 variables:
@@ -104,7 +104,7 @@ variables:
 
 pytest:
   image: python:3.8
-  stage: tests
+  stage: test
   services:
     - selenium/standalone-firefox:latest
   script:
