@@ -18,6 +18,7 @@ class TestBackend:
         )
 
     def test_add(self, url):
+        print(url)
         self.driver.get(f'http://testapp:5000/add/1&2')
         assert "Add 1 and 2. Got 3!" == self.driver.find_element(By.TAG_NAME, "body").text
 
