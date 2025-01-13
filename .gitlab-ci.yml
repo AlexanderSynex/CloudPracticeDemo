@@ -96,10 +96,6 @@ functional_tests:
     # - pip install -r requirements.txt
     - pip install pytest selenium
   script:
-    - curl -X GET http://selenium:4444/wd/hub
-    - curl -X GET http://testapp:5000
-    - ping -c 1 selenium
-    - ping -c 1 testapp
     - pytest tests/functional_tests
   needs: [ build app ]
   tags:
