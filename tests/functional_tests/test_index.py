@@ -36,4 +36,3 @@ class TestBackend:
 
     def teardown_method(self):
         self.driver.close()
-        self.driver.quit()
