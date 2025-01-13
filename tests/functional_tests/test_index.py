@@ -10,11 +10,15 @@ driver_url = "http://localhost:4444" if "SELENIUM_REMOTE_URL" not in os.environ.
 
 class TestBackend:
     def setup_method(self):
-        print(driver_url)
         options = webdriver.ChromeOptions()
-        options.add_argument('--disable-blink-features=AutomationControlled')
-        options.add_argument('--headless')
-        self.driver = webdriver.Remote(command_executor=driver_url,options=options)
+        options.add_argument("--headless")  # Run in headless mode
+        options.add_argument("--no-sandbox")
+        options.add_argument("--disable-dev-shm-usage")
+
+        self.driver = webdriver.Remote(
+            command_executor="http://selenium:4444/wd/hub",
+            options=options
+        )
 
     def test_add(self, url):
         self.driver.get(f'{url}/add/1&2')
