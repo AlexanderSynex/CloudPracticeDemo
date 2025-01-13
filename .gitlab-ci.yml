@@ -110,6 +110,6 @@ pytest:
   script:
     - *install_firefox_geckodriver
     - pip install selenium pytest
-    - pytest
+    - pytest tests/functional_tests
   tags:
     - docker
