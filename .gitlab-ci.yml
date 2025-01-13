@@ -104,12 +104,11 @@ variables:
 
 pytest:
   image: python:3.8
-  stage: test
   services:
-    - name: selenium/standalone-firefox:latest
-      alias: selenium
+    - name: selenium/standalone-chrome
+      alias: selenium-chrome
+  stage: test
   script:
-    - *install_firefox_geckodriver
     - pip install selenium pytest
     - pytest tests/functional_tests
   tags:
