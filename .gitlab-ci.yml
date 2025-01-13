@@ -12,18 +12,18 @@ variables:
   IMAGE_TAG: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
   FF_NETWORK_PER_BUILD: 1
 
-# build app:
-#   stage: build
-#   image:
-#     name: gcr.io/kaniko-project/executor:v1.23.2-debug
-#     entrypoint: [""]
-#   script:
-#     - /kaniko/executor
-#       --context "${CI_PROJECT_DIR}"
-#       --dockerfile "${CI_PROJECT_DIR}/Dockerfile"
-#       --destination "$IMAGE_TAG"
-#   tags:
-#     - docker
+build app:
+  stage: build
+  image:
+    name: gcr.io/kaniko-project/executor:v1.23.2-debug
+    entrypoint: [""]
+  script:
+    - /kaniko/executor
+      --context "${CI_PROJECT_DIR}"
+      --dockerfile "${CI_PROJECT_DIR}/Dockerfile"
+      --destination "$IMAGE_TAG"
+  tags:
+    - docker
 
 # unit tests:
 #   image: python:3.8.20-alpine3.20
