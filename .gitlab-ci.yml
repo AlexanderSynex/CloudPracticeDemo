@@ -88,7 +88,7 @@ functional_tests:
   - name: selenium/standalone-chrome:latest
     alias: selenium
   variables:
-    - SELENIUM_REMOTE_URL: "http://selenium:4444/wd/hub"
+    SELENIUM_REMOTE_URL: "http://selenium:4444/wd/hub"
   before_script:
     - pip install -r requirements.txt
     - pip install selenium
