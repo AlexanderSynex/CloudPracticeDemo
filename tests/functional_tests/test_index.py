@@ -7,7 +7,7 @@ from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 
 class TestBackend:
     def setup_method(self, method):
-        self.driver = webdriver.Remote(command_executor="http://selenium-firefox:4444/wd/hub",options=webdriver.ChromeOptions())
+        self.driver = webdriver.Remote(command_executor="http://selenium-firefox:4444/wd/hub",options=webdriver.FirefoxOptions())
         self.vars = {}
   
     def teardown_method(self, method):
