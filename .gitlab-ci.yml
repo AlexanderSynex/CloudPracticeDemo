@@ -36,7 +36,6 @@ unit tests:
   script:
     - pytest tests/unit_tests
   needs: [ build app ]
-  when: [ build app ]
   tags:
     - docker
 
@@ -53,6 +52,5 @@ functional tests:
     - pip install selenium pytest
     - pytest tests/functional_tests
   needs: [ build app ]
-  when: unit tests
   tags:
     - docker
