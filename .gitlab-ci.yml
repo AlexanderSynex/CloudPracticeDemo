@@ -5,7 +5,7 @@
 # # https://docs.gitflic.space/cicd/gitflic-ci-yaml
 
 stages:
-  # - build
+  - build
   - test
 
 variables:
