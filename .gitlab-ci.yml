@@ -95,6 +95,8 @@ pytest:
   services:
     - name: selenium/standalone-chrome
       alias: selenium-chrome
+    - name: "$IMAGE_TAG"
+      alias: testapp    
   stage: test
   script:
     - pip install selenium pytest
