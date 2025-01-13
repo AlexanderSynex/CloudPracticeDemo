@@ -99,7 +99,7 @@ functional_tests:
   script:
     - ping -c 1 selenium
     - ping -c 1 testapp
-    # - pytest tests/functional_tests
+    - pytest tests/functional_tests
   needs: [ build app ]
   tags:
     - docker
