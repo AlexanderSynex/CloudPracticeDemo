@@ -7,12 +7,15 @@ from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 driver = "/home/geckodriver" if "FirefoxWebDriver" not in os.environ.keys() else os.path.join(
     os.environ["FirefoxWebDriver"], 'geckodriver')
 
+url = "http://localhost:4444" if "SELENIUM_REMOTE_URL" not in os.environ.keys() else os.environ["SELENIUM_REMOTE_URL"]
+
 
 class TestBackend:
     def setup_method(self):
+        print(url)
         options = webdriver.FirefoxOptions()
         options.add_argument('--disable-blink-features=AutomationControlled')
-        self.driver = webdriver.Remote(command_executor="http://localhost:4444",options=options)
+        self.driver = webdriver.Remote(command_executor=url,options=options)
 
     def test_add(self, url):
         self.driver.get(f'{url}/add/1&2')
