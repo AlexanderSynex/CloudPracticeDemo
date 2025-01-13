@@ -1,7 +1,7 @@
 import pytest
 
 def pytest_addoption(parser):
-    parser.addoption("--url", action="store", default='http://webapp:5000')
+    parser.addoption("--url", action="store", default='http://testapp:5000')
 
 
 @pytest.fixture(scope='session')
