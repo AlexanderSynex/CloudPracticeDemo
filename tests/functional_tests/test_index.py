@@ -16,7 +16,7 @@ class TestBackend:
         options.add_argument("--disable-dev-shm-usage")
 
         self.driver = webdriver.Remote(
-            command_executor="http://selenium:4444/wd/hub",
+            command_executor="selenium:4444/wd/hub",
             options=options
         )
 

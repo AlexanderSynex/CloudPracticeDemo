@@ -91,11 +91,9 @@ functional_tests:
       alias: selenium
     - name: "$IMAGE_TAG"
       alias: testapp
-  variables:
-    SELENIUM_REMOTE_URL: "http://selenium:4444/wd/hub"
   before_script:
-    # - pip install -r requirements.txt
-    # - pip install selenium
+    - pip install -r requirements.txt
+    - pip install selenium
     # - ping -c 1 http://selenium:4444/wd/hub
     # - ping -c 1 http://testapp:5000
   script:
