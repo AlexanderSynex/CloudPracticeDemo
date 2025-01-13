@@ -6,8 +6,12 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 
 class TestBackend:
-    def setup_method(self):
-        self.driver = webdriver.Remote(command_executor="http://selenium-chrome:4444/wd/hub",options=webdriver.ChromeOptions())
+    def setup_method(self, method):
+        self.driver = webdriver.Remote(command_executor="http://selenium-firefox:4444/wd/hub",options=webdriver.ChromeOptions())
+        self.vars = {}
+  
+    def teardown_method(self, method):
+        self.driver.quit()
 
     def test_add(self, url):
         print(f"Url is {url}")
@@ -26,5 +30,3 @@ class TestBackend:
         self.driver.get(f'{url}/subtract/9&2')
         assert "Subtract 9 and 2. Got 7!" == self.driver.find_element(By.TAG_NAME, "body").text
 
-    def teardown_method(self, method):
-        self.driver.close()

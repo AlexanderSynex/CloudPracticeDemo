@@ -94,8 +94,8 @@ build app:
 pytest:
   image: python:3.8
   services:
-    - name: selenium/standalone-chrome
-      alias: selenium-chrome
+    - name: selenium/standalone-firefox
+      alias: selenium-firefox
     - name: "$IMAGE_TAG"
       alias: testapp    
   stage: test
