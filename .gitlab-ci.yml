@@ -106,7 +106,8 @@ pytest:
   image: python:3.8
   stage: test
   services:
-    - selenium/standalone-firefox:latest
+    - name: selenium/standalone-firefox:latest
+      alias: selenium
   script:
     - *install_firefox_geckodriver
     - pip install selenium pytest
