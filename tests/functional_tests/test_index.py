@@ -7,7 +7,6 @@ from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 
 class TestBackend:
     def setup_method(self):
-        print(url)
         options = webdriver.FirefoxOptions()
         options.add_argument("--headless")  # Run in headless mode
         options.add_argument("--no-sandbox")
