@@ -92,11 +92,11 @@ functional_tests:
     - name: "$IMAGE_TAG"
       alias: testapp
   before_script:
-    - pip install -r requirements.txt
-    - pip install selenium
-    # - ping -c 1 http://selenium:4444/wd/hub
-    # - ping -c 1 http://testapp:5000
+    # - pip install -r requirements.txt
+    - pip install pytest selenium
   script:
+    - ping -c 1 http://selenium:4444/wd/hub
+    - ping -c 1 http://testapp:5000
     - ping -c 1 selenium
     - ping -c 1 testapp
     - pytest tests/functional_tests
